@@ -1,0 +1,187 @@
+<template>
+	<view class="pages">
+		<uni-row>
+			<uni-col>
+				<view class='view-center' @click="toScan">
+					<image class='circle' mode="aspectFit" src="/static/zt/circle2.gif"></image>
+					<image class='scan' mode="aspectFit" src="/static/zt/scan.png"></image>
+					<text class="text">扫码租用</text>
+				</view>
+			</uni-col>
+		</uni-row>
+		<uni-row>
+			<uni-col>
+				<view class='view-center'>
+					<view class='clock'>
+						<u-icon  color='goldenrod' labelColor='goldenrod' name="lock-open" size='64px' label='关锁归还' labelPos='bottom' labelSize="12" @click="goBack"></u-icon>
+					</view>
+				</view>
+			</uni-col>
+		</uni-row>
+
+		<view class='icon-list'>
+			<view class="icon-item" @click="customService">
+				<u-icon color='grey' name="kefu-ermai" size='32px' label='客服' labelPos='bottom' labelSize="14"></u-icon>
+			</view>
+			<view class="icon-item" @click="messages">
+				<u-icon class="icon-item" color='grey' name="more-circle" size='32px' label=' 消息' labelPos='bottom'
+					labelSize="14"></u-icon>
+			</view>
+		</view>
+
+		<view class="notice">
+			<u-notice-bar :text="text1" bg-color="#00000000" fontSize='16'></u-notice-bar>
+		</view>
+		<u-toast ref="uToastRef"></u-toast>
+
+	</view>
+</template>
+
+<script>
+	export default {
+		components: {
+
+		},
+		computed: {
+
+		},
+		data() {
+			return {
+				text1: '你有一台设备使用中，请关注。'
+			}
+		},
+		watch: {
+
+		},
+		async onReady() {
+
+		},
+		async onShow() {
+
+		},
+		methods: {
+			goBack(){
+				uni.navigateTo({
+					url: "/pages/list/return-device/return-device"
+				})
+			},
+			messages(){
+				uni.navigateTo({
+					url: "/pages/ucenter/read-news-log/read-news-log"
+				})
+			},
+			customService(){
+				uni.makePhoneCall({phoneNumber: '400-000-0001'})
+			},
+			showToast(params) {
+				this.$refs.uToastRef.show({
+					...params
+				})
+			},
+			toScan() {
+				uni.scanCode({
+					onlyFromCamera: true,
+					scanType: 'qrCode',
+					success: (ret) => {
+						this.showToast({
+							message: ret.result
+						})
+						console.log(ret)
+						uni.navigateTo({
+							url: "/pages/list/open-device/open-device"
+						})
+					},
+					fail: (ret) => {
+						this.showToast({
+							message: ret.result
+						})
+						console.log(ret)
+					},
+					complete: (ret) => {
+						console.log(ret)
+						uni.navigateTo({
+							url: "/pages/list/open-device/open-device"
+						})
+					}
+				})
+			}
+
+		}
+	}
+</script>
+
+<style scoped>
+	/* #ifndef APP-NVUE */
+	view {
+		display: flex;
+		box-sizing: border-box;
+		flex-direction: column;
+	}
+
+	/* #endif */
+
+
+	.circle {
+		margin-top: 40rpx;
+		width: 46vw
+	}
+
+	.scan {
+		top: 3vh;
+		width: 20vw;
+		position: absolute;
+	}
+
+	.text {
+		font-size: 22px;
+		color: rgba(17, 17, 17, 0.7);
+		margin-top: -20px;
+	}
+
+
+
+	.clock {
+		width: 14vw;
+		height: 60vh;
+		display: flex;
+		justify-content:center;
+	}
+
+	.text2 {
+		font-size: 14px;
+		color: #999999;
+		top: -25vh;
+	}
+
+	.view-center {
+		display: flex;
+		align-items: center;
+	}
+
+	.icon-list {
+		position: fixed;
+		bottom: 50vh;
+		right: 5vw;
+	}
+
+	.icon-item {
+		margin-top: 20rpx;
+	}
+
+	.notice {
+		position: fixed;
+		top: 55vh;
+		margin: 5rpx;
+	}
+
+	.pages {
+		background-color: #FFFFFF;
+		background-image: url('https://mp-bb5938a0-4963-4034-834c-ec00b56dcc25.cdn.bspapp.com/static/backend6.jpeg');
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-position: center center;
+		width: 100vw;
+		height: 100vh;
+		padding-top: 200rpx;
+	}
+</style>

@@ -1,0 +1,15 @@
+{
+    "id": "clock-learn",
+    "name": "翻页时钟",
+    "version": "1.0",
+    "description": "实现翻页时钟效果",
+    "keywords": [
+        "翻页时钟"
+    ],
+    "dcloudext": {
+        "category": [
+            "前端组件",
+            "通用组件"
+        ]
+    }
+}
